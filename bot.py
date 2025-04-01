@@ -1,15 +1,27 @@
+# BYBIT PEPE BOT - CLOUD EDITION
+import os
+import time
 from pybit.unified_trading import HTTP
-import os, time
 
-api_key = os.getenv("BYBIT_KEY")
-api_secret = os.getenv("BYBIT_SECRET")
+# Configuration
+SYMBOL = "PEPEUSDT"
+bybit = HTTP(
+    api_key=os.getenv('BYBIT_KEY'),
+    api_secret=os.getenv('BYBIT_SECRET'),
+    testnet=False  # Change to True for testing
+)
 
 def trade():
-    session = HTTP(api_key, api_secret)
-    while True:
-        ticker = session.get_tickers(symbol="PEPEUSDT")
-        print(f"Price: {ticker['result']['list'][0]['last_price']}")
-        time.sleep(60)
+    ticker = bybit.get_tickers(category="linear", symbol=SYMBOL)
+    price = float(ticker['result']['list'][0]['lastPrice'])
+    print(f"Current PEPE Price: {price}")
+    
+    # Add your strategy here
+    if price < 0.00001200:
+        print("BUY SIGNAL")
+        # bybit.place_order(...)
 
 if __name__ == "__main__":
-    trade()
+    while True:
+        trade()
+        time.sleep(60)
