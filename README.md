@@ -1,2 +1,2 @@
-# crypto-bot
+# pepe-bot
 24/7 Crypto trading bot for Bybit
